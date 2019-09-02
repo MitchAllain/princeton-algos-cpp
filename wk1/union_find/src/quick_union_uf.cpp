@@ -10,6 +10,11 @@ int QuickUnionUF::root(int p)
   return i;
 }
 
+int QuickUnionUF::qfind(int p)
+{
+  return root(p);
+}
+
 void QuickUnionUF::connect(int p, int q)
 {
   int pid = root(p);

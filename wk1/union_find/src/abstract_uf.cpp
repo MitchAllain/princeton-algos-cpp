@@ -1,5 +1,7 @@
 #include "abstract_uf.h"
 
+template class std::unique_ptr<int[]>;
+
 AbstractUF::AbstractUF(int n)
   : sz_{n},
     id_{new int[sz_]}

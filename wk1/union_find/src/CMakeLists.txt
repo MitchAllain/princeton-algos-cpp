@@ -1,1 +1,3 @@
-add_executable(main main.cpp quick_find_uf.cpp quick_union_uf.cpp abstract_uf.cpp)
+add_executable(input_connections input_connections.cpp quick_find_uf.cpp quick_union_uf.cpp abstract_uf.cpp)
+add_executable(test_percolation test_percolation.cpp percolation.cpp weighted_quick_union_uf.cpp quick_find_uf.cpp quick_union_uf.cpp abstract_uf.cpp)
+add_executable(test_m_percolations test_m_percolations.cpp percolation.cpp weighted_quick_union_uf.cpp quick_find_uf.cpp quick_union_uf.cpp abstract_uf.cpp)

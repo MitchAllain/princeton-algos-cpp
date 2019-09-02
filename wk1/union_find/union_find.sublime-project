@@ -17,8 +17,16 @@
 					"shell_cmd": "make -j8 rebuild_cache"
 				},
 				{
-					"name": "main",
-					"shell_cmd": "make -j8 main"
+					"name": "input_connections",
+					"shell_cmd": "make -j8 input_connections"
+				},
+				{
+					"name": "test_percolation",
+					"shell_cmd": "make -j8 test_percolation"
+				},
+				{
+					"name": "test_m_percolations",
+					"shell_cmd": "make -j8 test_m_percolations"
 				}
 			],
 			"working_dir": "${project_path}/build"
