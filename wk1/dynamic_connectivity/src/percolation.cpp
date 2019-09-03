@@ -1,21 +1,22 @@
 #include "percolation.h"
 
 #include <iostream>
+#include <fstream>
+#include <cstring>
+#include <memory>
 
 #include "quick_find_uf.h"
 #include "quick_union_uf.h"
 #include "weighted_quick_union_uf.h"
 
-Percolation::Percolation(int n)
+Percolation::Percolation(int n, char* strategy)
   : n_(n),
     grid_sz_(n * n),
     i_top_(grid_sz_),
     i_bottom_(grid_sz_ + 1),
-    uf_{new WeightedQuickUnionUF(grid_sz_ + 2)},
     open_(grid_sz_, false)
 {
-  // std::cout << "New Percolation instance with " << grid_sz_ << " sites." << std::endl;
-  // std::fill(*open_, *open_ + grid_sz_, false);
+  uf_ = read_strategy(strategy);
 }
 
 
@@ -107,4 +108,29 @@ int Percolation::numberOfOpenSites()
 bool Percolation::percolates()
 {
   return uf_->connected(i_top_, i_bottom_);
+}
+
+std::unique_ptr<AbstractUF> Percolation::read_strategy(char* arg)
+{
+  if (strcmp(arg, "qu") == 0)
+  {
+    // std::cout << "QuickUnionUF" << std::endl;
+    return std::unique_ptr<AbstractUF>{new QuickUnionUF(grid_sz_ + 2)};
+  }
+  else if (strcmp(arg, "qf") == 0)
+  {
+    // std::cout << "QuickFindUF" << std::endl;
+    return std::unique_ptr<AbstractUF>{new QuickFindUF(grid_sz_ + 2)};
+  }
+  else
+  {
+    // std::cout << "WeightedQuickUnionUF" << std::endl;
+    return std::unique_ptr<AbstractUF>{new WeightedQuickUnionUF(grid_sz_ + 2)};
+  }
+}
+
+void Percolation::writeGraph()
+{
+  std::ofstream outfile("graph.gv");
+  uf_->writeGraph(outfile);
 }

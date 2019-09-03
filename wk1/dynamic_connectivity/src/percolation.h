@@ -8,13 +8,15 @@
 
 class Percolation {
 public:
-  Percolation(int n);
+  Percolation(int n, char* strategy);
   int index(int row, int col) {return row * n_ + col;}
   void open(int row, int col);
   bool isOpen(int row, int col);
   bool isFull(int row, int col);
   int numberOfOpenSites();
   bool percolates();
+  std::unique_ptr<AbstractUF> read_strategy(char* arg);
+  void writeGraph();
 private:
   int n_, grid_sz_, i_top_, i_bottom_;
   std::unique_ptr<AbstractUF> uf_;

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <chrono>
+#include <ctime>
 #include <numeric>
 #include <cmath>
 
@@ -48,6 +49,14 @@ void printStats(std::vector<double>& v, std::string units)
 
 int main(int argc, char *argv[])
 {
+  if (argc < 4)
+  {
+    std::cerr << "Too few arguments. Only " << argc - 1 << " of 3 " << std::endl;
+    return 1;
+  }
+
+  srand(time(NULL));
+
   int n = parseArg(argv[1]);
   int sz = n * n;
 
@@ -60,23 +69,32 @@ int main(int argc, char *argv[])
   auto t1 = std::chrono::high_resolution_clock::now();
   auto ts = t1;
 
-  for (int t = 0; t <= T; t++)
+  for (int t = 0; t < T; t++)
   {
-    Percolation perc(n);
+    Percolation perc(n, argv[3]);
 
     while (!perc.percolates())
     {
       int i = std::rand() % n;
       int j = std::rand() % n;
       perc.open(i, j);
+
+      // beware do not use these with large T values
+      // perc.writeGraph();
+      // uncomment below to watch graph updates
+      // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
     }
 
     double p_est = (float)perc.numberOfOpenSites() / sz;
 
     auto t2 = std::chrono::high_resolution_clock::now();
-    thresholds[t] = p_est;
     auto dur_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
     times[t] = dur_ms.count();
+
+    thresholds[t] = p_est;
+    // perc.writeGraph();
+
     t1 = t2;
   }
 

@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#include <thread>
 
 #include "percolation.h"
 
@@ -35,24 +36,33 @@ int parseArg(char* argv)
 
 int main(int argc, char *argv[])
 {
+  if (argc < 3)
+  {
+    std::cerr << "Too few arguments. Only " << argc - 1 << " of 2 " << std::endl;
+    return 1;
+  }
+
+  srand(time(NULL));
+
   int n = parseArg(argv[1]);
   int sz = n * n;
 
-  int T = parseArg(argv[2]);
-
-  Percolation perc(n);
+  Percolation perc(n, argv[2]);
 
   while (!perc.percolates())
   {
     int i = std::rand() % n;
     int j = std::rand() % n;
-    // std::cout << perc.numberOfOpenSites() << " open sites / "
-    //   << sz << " total cells." << std::endl;
 
     perc.open(i, j);
+
+    // perc.writeGraph();
+    // uncomment below to watch graph updates
+    // std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 
   double p_est = (float)perc.numberOfOpenSites() / sz;
   printf("%i open sites of %i total cells.\n", perc.numberOfOpenSites(), sz);
   printf("p* is %.4f\n", p_est);
+
 }
