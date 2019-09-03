@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     times[t] = dur_ms.count();
 
     thresholds[t] = p_est;
-    // perc.writeGraph();
+    perc.writeGraph();
 
     t1 = t2;
   }
