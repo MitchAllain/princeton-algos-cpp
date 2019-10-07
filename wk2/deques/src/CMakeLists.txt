@@ -1,0 +1,2 @@
+add_executable(test_deque test_deque.cpp)
+add_executable(test_randomized_queue test_randomized_queue.cpp)
